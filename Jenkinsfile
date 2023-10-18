@@ -34,9 +34,8 @@ node {
       sh "docker login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET $loginServer"
       // build image
       def imageWithTag = "$loginServer/$imageName:$version"
-      def image = docker.build imageWithTag
-      // push image
-      image.push()
+      sh "docker build -t $imageWithTag"
+      sh "docker push -t $imageWithTag"
       // update deployment.yaml with latest tag
       sh "sed 's/\$version/$version/g' deployment.yaml > target/deployment.yaml"
       // update deployment
