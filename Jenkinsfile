@@ -18,7 +18,6 @@ node {
     def acrName = 'kpnreg'
     def imageName = 'calculator'
     // generate version, it's important to remove the trailing new line in git describe output
-    def version = sh script: 'git describe | tr -d "\n"', returnStdout: true
     withCredentials([azureServicePrincipal('azure-credentials')]) {
       // login Azure
       sh '''
@@ -33,11 +32,11 @@ node {
       // you can also use docker.withRegistry if you add a credential
       sh "docker login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET $loginServer"
       // build image
-      def imageWithTag = "$loginServer/$imageName:$version"
+      def imageWithTag = "$loginServer/$imageName:$BUILD_NUMBER"
       sh "docker build -t $imageWithTag ."
       sh "docker push -t $imageWithTag"
       // update deployment.yaml with latest tag
-      sh "sed 's/\$version/$version/g' deployment.yaml > target/deployment.yaml"
+      sh "sed 's/\$version/$BUILD_NUMBER/g' deployment.yaml > target/deployment.yaml"
       // update deployment
       sh 'kubectl apply -f target/deployment.yaml'
       // log out
