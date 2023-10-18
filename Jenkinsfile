@@ -31,7 +31,7 @@ node {
       // login docker
       // docker.withRegistry only supports credential ID, so use native docker command to login
       // you can also use docker.withRegistry if you add a credential
-      sh "docker login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET $loginServer"
+      sh "sudo docker login -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET $loginServer"
       // build image
       def imageWithTag = "$loginServer/$imageName:$version"
       def image = docker.build imageWithTag
