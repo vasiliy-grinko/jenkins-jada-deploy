@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: calculator
@@ -11,8 +11,15 @@ spec:
     spec:
       containers:
       - name: calculator
-        image: kpnreg.azurecr.io/calculator:$version
+        image: kpnreg.azurecr.io/calculator:13
         ports:
         - containerPort: 8080
+        resources:
+          limits:
+            cpu: 300m
+            memory: 512Mi
+          requests:
+            cpu: 10m
+            memory: 50Mi
       imagePullSecrets:
       - name: acr-registry
