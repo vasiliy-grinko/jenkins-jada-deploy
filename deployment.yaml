@@ -11,8 +11,8 @@ spec:
     spec:
       containers:
       - name: calculator
-        image: <image>:$version
+        image: kpnreg.azurecr.io/calculator:$version
         ports:
         - containerPort: 8080
       imagePullSecrets:
-      - name: <imagePullSecrets>
+      - name: acr-registry
