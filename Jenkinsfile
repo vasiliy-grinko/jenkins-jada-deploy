@@ -15,7 +15,7 @@ node {
   }
   
   stage('deploy') {
-    def acrName = 'kpntest'
+    def acrName = 'kpnreg'
     def imageName = 'calculator'
     // generate version, it's important to remove the trailing new line in git describe output
     def version = sh script: 'git describe | tr -d "\n"', returnStdout: true
