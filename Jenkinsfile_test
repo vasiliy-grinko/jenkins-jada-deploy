@@ -1,0 +1,24 @@
+
+pipeline {
+    agent any
+    stages {
+        stage("Release scope") {
+            steps {
+                script {
+                    env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
+                            parameters: [extendedChoice(
+                            name: 'ArchitecturesCh',
+                            defaultValue: "${env.BUILD_ARCHS}",
+                            multiSelectDelimiter: ',',
+                            type: 'PT_CHECKBOX',
+                            value: env.LIST
+                      )]
+                      // Show the select input
+                      env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
+                            parameters: [choice(name: 'CHOOSE_RELEASE', choices: env.LIST, description: 'What are the choices?')]
+                }
+                echo "Release scope selected: ${env.RELEASE_SCOPE}"
+            }
+        }
+    }
+}
